@@ -17,6 +17,8 @@
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"
 
+extern ConVar rd_allow_flashlight;
+
 IMPLEMENT_NETWORKCLASS_ALIASED( ASW_Weapon_Flashlight, DT_ASW_Weapon_Flashlight )
 
 BEGIN_NETWORK_TABLE( CASW_Weapon_Flashlight, DT_ASW_Weapon_Flashlight )
@@ -60,7 +62,16 @@ CASW_Weapon_Flashlight::~CASW_Weapon_Flashlight()
 
 void CASW_Weapon_Flashlight::MarineDropped(CASW_Marine* pMarine)
 {
-	pMarine->FlashlightTurnOff();
+	if (!rd_allow_flashlight.GetBool())
+	{
+		//set to 0 - disable.
+		pMarine->FlashlightTurnOff();
+	}
+	else
+	{
+		//set to 1 - enable.
+		//no need code
+	}
 
 	BaseClass::MarineDropped(pMarine);
 }
